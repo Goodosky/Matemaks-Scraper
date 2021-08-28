@@ -113,13 +113,7 @@ class MatemaksScraper:
             )
             questions = self.get_questions(lesson["lesson_url"])
 
-            if 'only_video_ids':
-                if questions:
-                    for question in questions:
-                        questions[question] = questions[question]['yt']
-
-                lessons[lesson_number] = questions
-            elif 'only_questions' in kwargs:
+            if 'only_questions' in kwargs:
                 lessons[lesson_number] = questions
             else:
                 lessons[lesson_number]["questions"] = questions
