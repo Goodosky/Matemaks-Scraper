@@ -1,3 +1,4 @@
+> :warning: **Brak wsparcia**: Ten Scraper, jaki i [wtyczka do Matemaks](https://github.com/Goodosky/matemaks-extension) powinny działać, ale autor już dzięki tym narzędziom zakończył swoją przygodę maturalną i ich nie aktualizuje (na studiach używa się e-trapez, ale jego dostaniecie w paczkach od starszych roczników :P)
 # Matemaks Scraper
 
 Czyli prosty scraper do matemaks.pl z obsługą logowania do matemaks.pl i pobierania danych dostępnych tylko po zalogowaniu.
@@ -9,7 +10,9 @@ Czyli prosty scraper do matemaks.pl z obsługą logowania do matemaks.pl i pobie
 #### - biblioteka Selenium
 
 - Dokumentacja: https://selenium-python.readthedocs.io/index.html
-- Instalacja: `pip install -U selenium`
+- Instalacja: `pip install selenium==4.2.0`
+
+> :warning: **Stara wersja Selenium**: Jak widzisz Scraper działa ze starą wersją Selenium 4.2.0 (maj 2022), co może wiązać się z brakiem poprawek bezpieczeństwa. [Sprawdź czy nie wykryto jakichś luk w zabezpieczeniach](https://security.snyk.io/package/pip/selenium/4.2.0) lub dostosuj kod do najnowszej wersji (nie powinno to być więcej niż kilka zmian).
 
   Do działania Selenium potrzebny jest też sterownik. Obecna wersja tego scrapera obsługuje domyślnie przeglądarkę Google Chrome, dla której sterowniki znajdziesz [tutaj](https://sites.google.com/a/chromium.org/chromedriver/downloads).
 
