@@ -30,12 +30,7 @@ Export data:
 # Init MatemaksScraper class, open browser and login to matemaks
 scraper = MatemaksScraper()
 
-# Get full course
-export_to_json(scraper.get_all_matura_course())
-
-# Get all questions
-all_questions = scraper.get_all_matura_questions()
-export_to_json(all_questions, "output/matemaks-all-questions.json")
+scraper.generate_data_for_matemaks_extension()
 
 # Close the browser
 scraper.close_browser()
