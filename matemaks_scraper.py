@@ -1,4 +1,6 @@
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from export_functions import *
 from config import *
 
 
@@ -8,21 +10,20 @@ class MatemaksScraper:
         self.password = password
 
         # Open browser
-        self.browser = webdriver.Chrome()
+        self.browser = webdriver.Firefox()
 
         # Login to matemaks.pl
         self.__login_to_matemaks()
 
     def __login_to_matemaks(self):
         self.browser.get("https://www.matemaks.pl/login.php")
-
-        input_username = self.browser.find_element_by_id("nazwa_uz")
+        input_username = self.browser.find_element(by=By.ID, value="nazwa_uz")
         input_username.send_keys(self.login)
 
-        input_password = self.browser.find_element_by_id("haslo")
+        input_password = self.browser.find_element(by=By.ID, value="haslo")
         input_password.send_keys(self.password)
 
-        login_button = self.browser.find_element_by_id("login_button")
+        login_button = self.browser.find_element(by=By.ID, value="login_button")
         login_button.click()
 
     def get_questions(self, url, only_video_ids=False):
@@ -36,8 +37,9 @@ class MatemaksScraper:
         # Go to url with questions
         self.browser.get(url)
 
-        all_lesson_questions = self.browser.find_elements_by_css_selector(
-            ".zadanie:not(.lekcja)"
+        all_lesson_questions = self.browser.find_elements(
+            by=By.CSS_SELECTOR,
+            value=".zadanie:not(.lekcja)"
         )
 
         for curr_question in all_lesson_questions:
@@ -49,9 +51,15 @@ class MatemaksScraper:
 
             # Set answer
             if curr_question.get_attribute("odp"):
-                answer = curr_question.find_element_by_css_selector(
-                    ".p_o"
-                ).get_attribute("innerHTML").replace('<span class="u">Odpowiedź:</span> ', "")
+                answer = curr_question.find_elements(
+                    by=By.CSS_SELECTOR,
+                    value=".p_o"
+                )
+                # replace '<span class="u">Odpowiedź:</span>' in attribute of innerHtml in answer with ""
+                for ans in answer:
+                    ans.get_attribute("innerHTML").replace(
+                        '<span class="u">Odpowiedź:</span>', ""
+                    )
             else:
                 answer = False
 
@@ -74,23 +82,26 @@ class MatemaksScraper:
         self.browser.get(url)
 
         number_of_lessons = len(
-            self.browser.find_elements_by_class_name("lekcja")
+            self.browser.find_elements(by=By.CLASS_NAME, value="lekcja")
         )
 
         # Get lesson level
-        lvl = 1 if "podstawowa" in self.browser.find_element_by_class_name(
-            "tytuldzialu"
+        lvl = 1 if "podstawowa" in self.browser.find_element(
+            by=By.CLASS_NAME,
+            value="tytuldzialu"
         ).text else 2
 
         # Store lesson details
         for i in range(number_of_lessons):
-            lesson = self.browser.find_elements_by_class_name("lekcja")[i]
+            lesson = self.browser.find_elements(by=By.CLASS_NAME, value="lekcja")[i]
             print(
                 f"Pobieranie danych dla lekcji: {lesson.get_attribute('tytul')}"
             )
 
-            lesson_url = lesson.find_element_by_tag_name(
-                'a').get_attribute("href")
+            lesson_url = lesson.find_element(
+                by=By.TAG_NAME,
+                value='a'
+                ).get_attribute("href")
 
             lesson_details = {
                 "lvl": lvl,
